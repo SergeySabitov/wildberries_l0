@@ -1,0 +1,186 @@
+header {
+    display: flex;
+}
+.header {
+    display: flex;
+    padding: 1rem 0.1875rem 1rem 1.5rem;
+    align-items: center;
+    gap: 2rem;
+    align-self: stretch;
+    flex: 1;
+
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .menu_icon_container {
+            display: flex;
+            padding: 0.75rem 0.625rem;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 1.75rem;
+                height: 1.5rem;
+            }
+
+
+
+            .mobile_only {
+                display: none;
+            }
+        }
+
+        .site_name {
+            display: flex;
+            width: 6.625rem;
+            padding: 0.0625rem 0rem 0.4375rem 0rem;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+
+            h2 {
+                color: $text_color_white;
+                font-size: 1.75rem;
+                font-style: normal;
+                line-height: 1.5rem;
+                font-variant: all-small-caps;
+                letter-spacing: 0.15rem;
+                margin: 0;
+            }
+        }
+    }
+    .search_form {
+        display: flex;
+        align-content: center;
+        flex:1;
+
+        input {
+            border: 0;
+            border-radius: 2.25rem;
+            background: rgba(255, 255, 255, 0.20);
+            padding-left: 1.25rem;
+            padding-right: 3.25rem;
+            color: $text_color_white;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.5rem; /* 133.333% */
+            outline: none;
+            height: 3rem;
+
+            flex:1;
+            
+            &::placeholder {
+                color: $text_color_white;
+                font-size: 1.125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.5rem; /* 133.333% */
+                opacity: 0.5;
+            }
+
+        }
+        .search_icon {
+            display: flex;
+            align-content: center;
+            position:relative;
+            right: 2.75rem;
+            z-index: 2;
+            width: 0;
+        }
+    }
+
+    .icons {
+        display: flex;
+        gap: 2.5rem;
+        align-content: center;
+        padding-right: 1rem;
+        .icon_item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.38rem;
+            align-items: center;
+
+            img {
+                width: 1.75rem;
+                height: 1.75rem;
+                flex-shrink: 0;
+            }
+
+            .icon_name {
+                font-size: 0.8125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1rem; 
+            }
+        }
+        .cart_icon{
+            position: relative;
+            .items_count {
+                position:absolute;
+                right: 0.15rem;
+                top: -0.25rem;
+                text-align: center;
+                font-size: 0.625rem;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 0.95rem; /* 180% */
+                border-radius: 1rem;
+                background: $accent_color_orange;
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
+
+    .search_icon {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        display: flex;
+        height: 3.5rem;
+        padding: 0rem 0.8125rem;
+        align-items: center;
+        gap: 1rem;
+        align-self: stretch;
+        width: 100%;
+
+        justify-content: space-between;
+
+        .search_icon {
+            display: inline;
+        }
+    }
+
+    .header .menu .menu_icon_container {
+        padding: 0;
+        &.desktop_only {
+            display: none;
+            
+        }
+    }
+    .header .menu .menu_icon_container .mobile_only {
+        display: inline;
+    }
+
+    .header .search_form.desktop_only {
+        display: none;
+    }
+
+    .header .menu .site_name {
+        width: auto;
+        display: flex;
+        padding: 0.6875rem 0.25rem 1.3125rem 0.25rem;
+        justify-content: center;
+        align-items: center;
+        flex: 1 0 0;
+        align-self: stretch;
+    }
+
+    .header .icons.desktop_only {
+        display: none;
+    }
+}

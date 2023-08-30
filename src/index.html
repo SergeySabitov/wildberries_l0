@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Web Page</title>
+</head>
+<body>
+    <header>
+        <div class="header">
+        <span class="menu">
+            <span class="menu_icon_container">
+                <img src="images/icons/menu.svg" alt="menu-icon" class="desktop_only"/>
+                <img src="images/icons/menu_mobile.svg" alt="menu-icon" class="mobile_only"/>
+            </span>
+            <span class="site_name">
+                <h2>товары и точка</h2>
+            </span>
+        </span>
+        <form class="search_form desktop_only">
+            <input type="search" placeholder="Я ищу...">
+            <span class="search_icon">
+                <img src="images/icons/search.svg" alt="search" />
+            </span>
+        </form>
+        <div class="icons desktop_only">
+            <span class="icon_item">
+                <img src="images/icons/profile.svg" alt="profile icon">
+                <span class="icon_name">Профиль</span>
+            </span>
+            <div class="cart_icon">
+                <span class="items_count" id="cartIconItemsCount">1</span>
+                <span class="icon_item">
+                    <img src="images/icons/cart.svg" alt="cart icon">
+                    
+                    <span class="icon_name">Корзина</span>
+                </span>
+            </div>
+        </div>
+        <div class="search_icon mobile_only">
+            <img src="images/icons/search_mobile.svg" alt="icon">
+        </div>
+    </div>
+    </header>
+    <main class="main">
+        <div class="cart">
+            <div class="cart_items_container">
+                <h1 class="cart_name">Корзина</h1>
+                
+                <div class="items_and_controls">
+                    <div class="items_control">
+                        <div class="choose_all_container">
+                            <span class="choose_all_checkbox_container" id="choose_all_checkbox_container">
+                                <img src="images/icons/checkbox.svg" alt="checkbox" class="choose_all_checkbox">
+                                <img src="images/icons/checkbox_empty.svg" alt="checkbox" class="choose_all_checkbox_empty hide">
+                            </span>
+                            <span class="choose_all">Выбрать все</span>
+                            <span class="infoWhenHided"></span>
+                        </div>
+                        <span id="hideShowItems">
+                            <img src="images/icons/hide.svg" alt="hide icon" class="hide_items_icon" id="hideEnabledItems">
+                            <img src="images/icons/show.svg" alt="show icon" class="hide_items_icon hide" id="showEnabledItems">
+                        </span>
+                        
+
+                    </div>
+                    <div class="cart_items" id="enabled_items"></div>
+                </div>
+                
+            </div>
+            <div class="disabled_items_container">
+                <div class="items_control">
+                    <h3 class="disabled_items_count"></h3>
+                    <span id="hideShowDisabledItems">
+                        <img src="images/icons/hide.svg" alt="hide icon" class="hide_items_icon" id="hideDisabledItems">
+                        <img src="images/icons/show.svg" alt="show icon" class="hide_items_icon hide" id="showDisabledItems">
+                    </span>
+                </div>
+                <div class="cart_items" id="disabled_items"></div>
+            </div>
+            <div class="order_info_container">
+                <div class="delivery_info_container">
+                    <div class="order_info_header">
+                        <h2>Способ доставки</h2>
+                        <button id="changeDeliveryMethod">Изменить</button>
+                    </div>
+                    <div class="delivery_info">
+                        <div class="names" id="deliveries">
+                            <div>
+                                <h3 class="drop_point" id="deliveryMethod">Пункт выдачи</h3>
+                                <div class="drop_point_value mobile_only">
+                                    <p class="address" id="deliveryAddressMobile">Бишкек, улица Ахматбека Суюмбаева, 12/1</p>
+                                    <span class="drop_point_characteristics">
+                                        <span class="rating">
+                                            <img class="star_icon" src="images/icons/star.svg" alt="star" />
+                                            <span class="drop_point_rating">4.99</span>
+                                        </span>
+                                        <span class="working_hours">Ежедневно с 10 до 21</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="shipping_price">Стоимость доставки</h3>
+                                <div class="shipping_price_value mobile_only">Бесплатно</div>
+                            </div>
+                        </div>
+                        <div class="values" id="deliveries_desktop">
+                            <div class="drop_point_value desktop_only">
+                                <p class="address" id="deliveryAddress">Бишкек, улица Ахматбека Суюмбаева, 12/1</p>
+                                <span class="drop_point_characteristics">
+                                    <span class="rating">
+                                        <img class="star_icon" src="images/icons/star.svg" alt="star" />
+                                        <span class="drop_point_rating">4.99</span>
+                                    </span>
+                                    <span class="working_hours">Ежедневно с 10 до 21</span>
+                                </span>
+                            </div>
+                            <div class="shipping_price_value desktop_only">Бесплатно</div>
+                        </div>
+                    </div>
+                    <div class="delivery_info_container_footer">
+                        <img src="images/icons/price_shipping.svg" alt="">
+                        <span>Обратная доставка товаров на склад при отказе — <span class="tooltip_container inline">
+                            <span class="tooltip_trigger">бесплатно</span>
+                            <div class="tooltip free">Если товары вам не подойдут, мы вернем их обратно на склад — это бесплатно</div>
+                        </span></span>
+                    </div>
+                </div>
+                <div class="pay_info_container">
+                    <div class="order_info_header">
+                        <h2>Способ оплаты</h2>
+                        <button id="changePayCard">Изменить</button>
+                    </div>
+                    <div class="card_info_container">
+                        <span class="card_icon_container"><img src="images/icons/mir.svg" alt="card_ison" id="cardIcon"></span>
+                        <div class="card_info">
+                            <span class="card_number" id="cardNumber">1234 56•• •••• 1234</span>
+                            <span class="card_date">01/30</span>
+                        </div>
+                    </div>
+
+                    <p class="pay_info_container_footer">Спишем оплату с карты при получении</p>
+                </div>
+                <div class="user_info_container" id="userInfoContainer">
+                    <div class="order_info_header">
+                        <h2>Получатель</h2>
+                    </div>
+                    <div class="first_level_inputs">
+                        <div class="input_container">
+                            <div class="input_label" id="nameInput_label">Имя</div>
+                            <input class="input_field" type="text" placeholder="Имя" id="nameInput" oninput="showLabel(this)"/>
+                            <div class="line"></div>
+                            <span class="input_error_text" id="nameInput_error">Проверьте имя</span>
+                        </div>
+
+                        <div class="input_container">
+                            <div class="input_label" id="surnameInput_label">Фамилия</div>
+                            <input class="input_field" type="text" placeholder="Укажите фамилию" id="surnameInput" oninput="showLabel(this)"/>
+                            <div class="line"></div>
+                            <span class="input_error_text" id="surnameInput_error">Проверьте фамилию</span>
+                        </div>
+                    </div>
+                    <div class="second_level_inputs">
+                        <div class="input_container">
+                            <div class="input_label" id="emailInput_label">Почта</div>
+                            <input class="input_field" type="text" placeholder="Укажите почту" id="emailInput" oninput="showLabel(this)"/>
+                            <div class="line"></div>
+                            <span class="input_error_text" id="emailInput_error">Проверьте адрес электронной почты</span>
+                        </div>
+
+                        <div class="input_container">
+                            <div class="input_label" id="phoneNumberInput_label">Телефон</div>
+                            <input class="input_field" type="text" maxlength="30" placeholder="Укажите телефон" id="phoneNumberInput" oninput="showLabel(this)"/>
+                            <div class="line"></div>
+                            <span class="input_error_text" id="phoneNumberInput_error">Формат: +9 999 999 99 99</span>
+                        </div>
+
+                        <div class="input_container">
+                            <div class="input_label" id="INNInput_label">ИНН</div>
+                            <input class="input_field" type="text" placeholder="Укажите ИНН" id="INNInput" oninput="showLabel(this)"/>
+                            <div class="line"></div>
+                            <span class="input_error_text" id="INNInput_error">Проверьте ИНН</span>
+                        </div>
+                        <!-- <button id="validate">кнопка</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="result_container">
+            <div class="price_info_container">
+                <div class="total_line">
+                    <h2>Итого</h2>
+                    <span class="final_cost" id="finalCost">588</span>
+                </div>
+                <div class="info_line">
+                    <span class="name" id="itemsQuantity"></span>
+                    <span class="value" id="costWithoutDiscount"></span>
+                </div>
+                <div class="info_line">
+                    <span class="name">Скидка</span>
+                    <span class="value" id="totalDiscount"></span>
+                </div>
+                <div class="info_line">
+                    <span class="name">Доставка</span>
+                    <span class="value">Бесплатно</span>
+                </div>
+            </div>
+            <div class="delivery_total_info_container">
+                <div class="delivery_info_container">
+                    <div class="total_section_header">
+                        <h4 id="deliveryMethodInTotal">В пункт выдачи</h4>
+                        <img src="images/icons/pencel.svg" alt="change info" id="changeDeliveyMethodInTotalContainer">
+                    </div>
+                    <p id="deliveryAddressInTotal">Бишкек, улица Ахматбека Суюмбаева, 12/1</p>
+                    <span class="deliveryDate" id="deliveryDate">5-8 фев</span>
+                </div>
+                <div class="notification">
+                    <img src="images/icons/price_shipping.svg">
+                    <span class="notification_text">
+                        Обратная доставка товаров на склад при отказе — <span class="tooltip_container inline">
+                            <span class="tooltip_trigger">бесплатно</span>
+                            <div class="tooltip free">Если товары вам не подойдут, мы вернем их обратно на склад — это бесплатно</div>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="pay_total_info_container">
+                <div class="pay_info_container">
+                    <div class="total_section_header">
+                        <h4 id="deliveryMethod">Оплата картой</h4>
+                        <img src="images/icons/pencel.svg" alt="change info" id="changePayCardInTotal">
+                    </div>
+                    <div class="card_info_container">
+                        <span class="card_icon_container"><img src="images/icons/mir.svg" alt="card_ison" id="cardIconInTotal"></span>
+                        <div class="card_info total">
+                            <span class="card_number" id="cardNumberInTotal">1234 56•• •••• 1234</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="instant_pay_check_container">
+                    <div class="checkbox_container">
+                        <span id="instantCheckbox">
+                            <img src="images/icons/checkbox_empty.svg" class="instantCheckbox_empty">
+                            <img src="images/icons/checkbox.svg" class="instantCheckbox_fill hide">
+                        </span>
+
+
+                        <span>Списать оплату сразу</span>
+                    </div>
+                    <span class="instantPayNotification">Спишем оплату с карты при получении</span>
+                </div>
+            </div>
+
+            <div class="order_button_container">
+                <div class="order_button" id="order"><h4 id="order_button__text">Заказать</h4></div>
+                <div class="agreement_container">
+                    <img src="images/icons/check.svg" alt="">
+                    <span>Соглашаюсь с правилами пользования торговой площадкой и возврата</span>
+                </div>
+            </div>
+        </div>
+        <div class="modalContainer hide" id="modalDeliveryContainer">
+            <div class="modal" id="deliveryModal">
+                <div class="modal_header">
+                    <h3>Способ доставки</h3>
+                    <img src="images/icons/close.svg" id="closeDeliveryModal" />
+                </div>
+                <div class="content">
+                    <div class="buttons_container">
+                        <div class="points_button active" id="pointButton"><span>В пункт выдачи</span></div>
+                        <div class="courier_button" id="courierButton"><span>Курьером</span></div>
+                    </div>
+
+                    <div class="points_container" id="points_container">
+                        <p class="header">Мои адреса</p>
+                    </div>
+                    <div class="addresses_container hide" id="addresses_container">
+                        <p class="header">Мои адреса</p>
+                    </div>
+
+                    <div class="change_info" id="changeDeliveryInfo">
+                        <div class="change_info_button" id="change_delivery_info_button">
+                            <h4 class="button_text">Выбрать</h4>
+                        </div>
+                    </div>
+                </div>
+            
+        
+            </div>
+        </div>
+        <div class="modalContainer hide" id="paymentModalContainer">
+            <div class="modal" id="paymentModal">
+                <div class="modal_header">
+                    <h3>Способ оплаты</h3>
+                    <img src="images/icons/close.svg" id="closePaymentModal" />
+                </div>
+                <div class="content">
+                    <div class="cardsContainer" id="cardsContainer">
+                    </div>
+                    <div class="change_info" id="changePaymentInfo">
+                        <div class="change_info_button" id="change_payment_info_button">
+                            <h4 class="button_text">Выбрать</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    <div class="footer">
+        © 2022  ООО «Товары и точка»
+    </div>
+    <div class="tabbar">
+        <span class="tab_icon_container">
+            <img src="images/icons/home.svg" alt="">
+        </span>
+        <span class="tab_icon_container">
+            <img src="images/icons/catalog.svg" alt="">
+        </span>
+        <span class="tab_icon_container">
+            <img src="images/icons/cartTabbar.svg" alt="">
+            <span class="items_count" id="cartIconItemsCountMobile">1</span>
+        </span>
+        <span class="tab_icon_container">
+            <img src="images/icons/favorites.svg" alt="">
+        </span>
+        <span class="tab_icon_container">
+            <img src="images/icons/profileTabbar.svg" alt="">
+        </span>
+    </div>
+<script>
+    function showLabel(inputField) {
+        const inputLabel = document.getElementById(`${inputField.id}_label`);
+
+        if (inputField.value.trim() !== "") {
+            inputLabel.style.visibility = "visible";
+        } else {
+            inputLabel.style.visibility = "hidden";
+        }
+    }
+</script>
+</body>
+</html>

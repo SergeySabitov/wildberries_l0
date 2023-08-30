@@ -1,0 +1,273 @@
+.modalContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 100;
+
+    width: 100vw;
+    height: 100vh;
+
+    &.hide {
+        display: none;
+    }
+    .modal {
+        position: relative;
+        top: 20%;
+        left: calc(50% - 16rem);
+        width: 32rem;
+        background-color: white;
+        color: $text_color;
+        border-radius: 1rem;
+
+        .modal_header {
+            display: flex;
+            padding: 1rem 1.5rem 0.8125rem 1.5rem;
+            align-items: flex-start;
+            align-self: stretch;
+            justify-content: space-between;
+
+            h3 {
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 1.75rem; /* 140% */
+                letter-spacing: -0.0125rem;
+                margin: 0
+            }
+        }
+
+        .content {
+            padding: 0rem 1.375rem;
+            display: flex;
+            padding: 0rem 1.375rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            align-self: stretch;
+
+            .buttons_container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: 1fr;
+                grid-column-gap: 0px;
+                gap: 0.5rem;
+                width: 100%;
+                    
+                .courier_button, .points_button {
+
+                    display: flex;
+                    padding-bottom: 0px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1rem;
+                    flex: 1 0 0;
+                    align-self: stretch;
+                    border-radius: 1.5rem;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.7rem;
+                    span {
+                        font-size: 0.8125rem;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: 1rem;
+                    }
+                }
+                .courier_button { 
+                    grid-area: 1 / 2 / 2 / 3;
+                }
+                .points_button { 
+                    
+                    grid-area: 1 / 1 / 2 / 2; 
+                }
+
+                .courier_button, .points_button {
+                    border: 2px solid rgba(203, 17, 171, 0.15);
+                    &.active {
+                        border: 2px solid #CB11AB;
+                    }
+                }
+            }
+
+            .points_container, .addresses_container {
+                display: flex;
+                gap: 0.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+
+                &.hide {
+                    display:none;
+                }
+
+                .header {
+                    font-size: 0.8125rem;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 1rem;
+                    margin: 0;
+                    padding: 0
+                }
+
+                .point_container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    width: 100%;
+
+                    .point {
+                        display: flex;
+                        gap: 0.5rem;
+
+                        .select {
+                            padding-top: 0.56rem;
+
+                            .picked, .notPicked {
+                                &.hide {
+                                    display: none;
+                                }
+                            }
+                        }
+
+                        .address {
+                            font-size: 1rem;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 1.5rem;
+
+                            display: flex;
+                            padding: 0.25rem 0rem 0.5rem 0rem;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-start;
+                            gap: 0.25rem;
+                            flex: 1 0 0;
+
+                            .footer {
+                                font-size: 0.8125rem;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 1rem;
+                                color: $text_color_gray;
+                            }
+                        }
+                    }
+                }
+
+                .delete_point {
+                    display: flex;
+                    width: 1.25rem;
+                    padding: 0.5rem 0rem;
+                    flex-direction: column;
+                    align-items: center;
+                    align-self: stretch;
+                    &:hover {
+                        fill: $text_color_warning
+                    }
+                }
+            }
+
+            .change_info {
+                display: flex;
+                padding: 1rem 0rem 1.5rem 0rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.625rem;
+                align-self: stretch;
+
+                .change_info_button {
+                    cursor: pointer;
+                    display: flex;
+                    height: 2.75rem;
+                    padding: 0rem 3rem;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 0.5rem;
+                    color: white;
+                    background-color: $accent_color_violet;
+                    .button_text {
+                        font-size: 1rem;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: 1.5rem;
+                        margin: 0;
+                        
+                    }
+                }
+            }
+
+            .cardsContainer {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                align-self: stretch;
+
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.5rem;
+                .card {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    align-self: stretch;
+                }
+
+                .select {
+                    display: flex;
+                    align-items: center;
+
+                    .picked, .notPicked {
+                        &.hide {
+                            display: none;
+                        }
+                    }
+                }
+
+                .card_info {
+                    display: flex;
+                    .card_img_container {
+                        display: flex;
+                        width: 2rem;
+                        height: 1.5rem;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                        border-radius: 0.25rem;
+                        background-color: $back_color_gray;
+                        margin-right: 0.25rem
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width: 767px) {
+    .modalContainer .modal {
+        position: relative;
+        top:0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .modalContainer .modal .content .change_info {
+        position:absolute;
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0;
+        width: calc(100vw - 2rem);
+
+        .change_info_button {
+            width: 100%;
+        }
+    }
+}

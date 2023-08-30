@@ -1,0 +1,364 @@
+.order_info_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    align-self: stretch;
+    color: $text_color;
+    
+
+    .delivery_info_container {
+        display: flex;
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        align-self: stretch;
+        background-color: $back_color_white;
+        border-radius: 1rem;
+
+        .delivery_info_container_footer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            align-self: stretch;
+            margin-top: 0.5rem;
+
+            img {
+                width: 1.375rem;
+                height: 1.375rem;
+            }
+
+            span {
+                font-size: 0.8125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1rem;
+                span {
+                    color: $text_color_good;
+                    border-bottom: 1px dashed $text_color_good;
+                }
+            }
+        }
+    }
+
+    .pay_info_container {
+        display: flex;
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        align-self: stretch;
+        background-color: $back_color_white;
+        border-radius: 1rem;
+
+        .pay_info_container_footer {
+            color: $text_color_gray;
+            font-size: 0.8125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1rem;
+            margin:0;
+        }
+    }
+
+    .user_info_container {
+        display: flex;
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        align-self: stretch;
+        background-color: $back_color_white;
+
+        border-radius: 1rem;
+
+        .input_container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0;
+            align-self: stretch;
+
+            .input_label {
+                font-size: 0.8125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1rem;
+                color: $text_color_gray;
+                margin-bottom: 0.125rem;
+                visibility: hidden;
+            }
+
+            .line {
+                height: 2px;
+                width: 100%;
+                background-color: rgba(0,0,0,0.2);
+                margin-bottom: 0.25rem;
+            }
+
+            .input_field {
+                border: 0;
+                outline: none;
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1.5rem;
+                padding: 0;
+
+
+                &.error {
+                    color: $text_color_warning;
+                }
+
+                &::placeholder {
+                    color: $text_color_gray;
+                    font-size: 1rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 1.5rem;
+                }
+            }
+
+            .input_error_text {
+                color: $text_color_warning;
+                font-family: Segoe UI;
+                font-size: 0.75rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 0.875rem;
+                visibility: hidden;
+            }
+        }
+
+        .first_level_inputs {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 1.5rem;
+            align-self: stretch;
+            
+        }
+        .second_level_inputs {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 1.5rem;
+            align-self: stretch;
+            
+        }
+    }
+
+    .order_info_header {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        h2 {
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 2rem; /* 133.333% */
+            letter-spacing: -0.015rem;
+            margin: 0;
+        }
+        button {
+            margin: 0;
+            padding:0;
+            background-color:inherit;
+            color: $accent_color_violet;
+            text-align: right;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1.5rem; /* 150% */
+            border: 0;
+        }
+
+    }
+
+    .delivery_info {
+        display: flex;
+        align-items: flex-start;
+        gap: 2rem;
+        align-self: stretch;
+
+        .names {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+
+            h3 {
+                margin: 0;
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 1.5rem;
+
+                &.date {
+                    height: 3.5rem
+                }
+            }
+
+            .drop_point {
+                height: 2.75rem;
+            }
+        }
+
+        .values {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            flex: 1 0 0;
+        }
+    }
+}
+
+.drop_point_value {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.25rem;
+
+    &.mobile_only {
+        display: none;
+    }
+
+    .drop_point_characteristics {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        .rating {
+            display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
+            align-items: center;
+            .drop_point_rating {
+                font-size: 0.8125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1rem;
+            }
+        }
+        .working_hours {
+            font-size: 0.8125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1rem;
+        }
+
+        
+    }
+    .address {
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.5rem; 
+            margin: 0;
+        }
+}
+
+.shipping_price_value {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem;
+}
+
+.items_to_deliver_container {
+    display: flex;
+    height: 3.5rem;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    &.mobile_only {
+        display: none;
+    }
+    
+    .item_card {
+        position: relative;
+    }
+
+    img {
+        width: 2.5rem;
+        height: 3.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .item_quantity_container {
+        display: flex;
+        height: 1rem;
+        transform: rotate(0.065deg);
+        padding: 0.0625rem 0.25rem 0rem 0.25rem;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        right: -0.25519rem;
+        top: -0.49988rem;
+
+        border-radius: 1rem;
+        background: $accent_color_orange;
+
+        .item_quantity {
+            color:$text_color_white;
+            text-align: center;
+            font-size: 0.625rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 1.125rem;
+        }
+
+        &.figure {
+            padding: 0.0625rem 0.125rem 0rem 0.125rem;
+            .item_quantity {
+                width: 0.75rem;
+            }
+        }
+
+
+
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .drop_point_value.mobile_only {
+        display: flex;
+    }
+    .drop_point_value.desktop_only {
+        display: none;
+        
+    }
+    .order_info_container .delivery_info .names .drop_point,
+    .order_info_container .delivery_info .names h3.date {
+        height: auto;
+    }
+    
+
+    .items_to_deliver_container {
+        &.mobile_only {
+            display: flex;
+        }
+        &.desktop_only {
+            display: none;
+        }
+    }
+    .items_to_deliver_section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem
+    }
+
+    .order_info_container .user_info_container .first_level_inputs,
+    .order_info_container .user_info_container .second_level_inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-self: stretch;
+        
+    }
+}
