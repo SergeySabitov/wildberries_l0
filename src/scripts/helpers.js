@@ -28,6 +28,10 @@ function formatPhoneNumber(phoneNumber) {
     return formatted;
 }
 
+function formatINN(INN) {
+    return INN.replace(/\D/g, "");
+}
+
 const deleteDeliveryInfo = () => {
     const deliveriesContainer = document.getElementById('deliveries');
     const deliveriesDesktopContainer = document.getElementById('deliveries_desktop');
@@ -55,4 +59,4 @@ const isValidINN = (inputString) => {
     var digitsPattern = /^\d{14}$/;
     return digitsPattern.test(inputString);
 }
-export {isValidEmail, isValidPhoneNumber, formatPhoneNumber,deleteDeliveryInfo, isValidName, isValidINN}
+export {isValidEmail, isValidPhoneNumber, formatPhoneNumber,deleteDeliveryInfo, isValidName, isValidINN, formatINN}

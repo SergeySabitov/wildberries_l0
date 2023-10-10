@@ -12,7 +12,7 @@
         padding: 1rem 1.5rem 1.5rem 1.5rem;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        // gap: 1rem;
         align-self: stretch;
         background-color: $back_color_white;
         border-radius: 1rem;
@@ -22,7 +22,7 @@
             align-items: center;
             gap: 0.5rem;
             align-self: stretch;
-            margin-top: 0.5rem;
+            margin-top: 1.5rem;
 
             img {
                 width: 1.375rem;
@@ -67,7 +67,7 @@
         padding: 1rem 1.5rem 1.5rem 1.5rem;
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 0;
         align-self: stretch;
         background-color: $back_color_white;
 
@@ -92,9 +92,9 @@
             }
 
             .line {
-                height: 2px;
+                height: 0;
                 width: 100%;
-                background-color: rgba(0,0,0,0.2);
+                border-bottom: 1px solid rgba(0,0,0,0.2);
                 margin-bottom: 0.25rem;
             }
 
@@ -154,6 +154,7 @@
         flex-direction: row;
         align-items: baseline;
         justify-content: space-between;
+        margin-bottom: 16px;
         h2 {
             font-size: 1.5rem;
             font-style: normal;
@@ -357,8 +358,11 @@
     .order_info_container .user_info_container .second_level_inputs {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 16px;
         align-self: stretch;
         
+    }
+    .order_info_container .user_info_container .first_level_inputs {
+        margin-bottom: 16px
     }
 }

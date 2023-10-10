@@ -11,13 +11,17 @@ import visa from './images/icons/visa.svg'
 import mastercard from './images/icons/mastercard.svg'
 
 
+// в модалах при изменении чекбокса и просто закрытии сохраняется выбор - исправить + выбор пункта при нажатии на строку
+// добавить возможность добавлять в избранное и удалять товары (обновлять счетчик корзины - если 0 товаров то нет счетчика)
+
+
 import showDeliveryMethods from './scripts/showDeliveryMethods';
 
-import {isValidEmail, isValidPhoneNumber, formatPhoneNumber, deleteDeliveryInfo, isValidName, isValidINN} from './scripts/helpers';
+import {isValidEmail, isValidPhoneNumber, formatPhoneNumber, deleteDeliveryInfo, isValidName, isValidINN, formatINN} from './scripts/helpers';
 import showPayCards from './scripts/showPayCards';
 
 
-const CART_DATA = [
+let CART_DATA = [
     {
         id: 1,
         name: 'Футболка UZcotton мужская',
@@ -36,7 +40,8 @@ const CART_DATA = [
             ogrn: 'ОГРН: 5167746237148',
             address: '129337, Москва, улица Красная Сосна, 2, корпус 1, стр. 1, помещение 2, офис 34'
         },
-        path_to_img: img1
+        path_to_img: img1,
+        favorite: true
     },
     {
         id: 2,
@@ -56,7 +61,8 @@ const CART_DATA = [
             ogrn: 'ОГРН: 5167746237148',
             address: '129337, Москва, улица Красная Сосна, 2, корпус 1, стр. 1, помещение 2, офис 34'
         },
-        path_to_img: img2
+        path_to_img: img2,
+        favorite: false
     },
     {
         id: 3,
@@ -76,7 +82,8 @@ const CART_DATA = [
             ogrn: 'ОГРН: 5167746237148',
             address: '129337, Москва, улица Красная Сосна, 2, корпус 1, стр. 1, помещение 2, офис 34'
         },
-        path_to_img: img3
+        path_to_img: img3,
+        favorite: false
     },
     {
         id: 4,
@@ -90,7 +97,8 @@ const CART_DATA = [
         size: '56',
         stock: null,
         company: null,
-        path_to_img:img1
+        path_to_img:img1,
+        favorite: false
     },
     {
         id: 5,
@@ -104,7 +112,8 @@ const CART_DATA = [
         size: null,
         stock: null,
         company: null,
-        path_to_img: img2
+        path_to_img: img2,
+        favorite: false
     },
     {
         id: 6,
@@ -118,7 +127,8 @@ const CART_DATA = [
         size: null,
         stock: null,
         company: null,
-        path_to_img: img3
+        path_to_img: img3,
+        favorite: false
     }
 ]
 
@@ -140,7 +150,7 @@ let card_items_info = [
     }
 ]
 
-const DELIVERY_DATA = [
+let DELIVERY_DATA = [
     {
         date: '5—6 февраля',
         items: [1,2,3]
@@ -158,6 +168,39 @@ const showItems = (data, parent_container_id) => {
         if (el.left === 0) return;
         const quantity = card_items_info.find(item => item.id === el.id).count;
         showItem(el, parent_container_id, quantity);
+    });
+
+    data.map(el => {
+        if (el.left === 0) return;
+        const deleteIcon = document.getElementById(el.id + '_delete');
+        deleteIcon.addEventListener('click', () => {
+            CART_DATA = CART_DATA.filter(item => item.id !== el.id);
+            DELIVERY_DATA = DELIVERY_DATA.map(deliveryItem => { 
+                return {
+                    date: deliveryItem.date, items: deliveryItem.items.filter(item => item !== el.id)     
+                }
+            }).filter(deliveryItem => deliveryItem.items.length !== 0);
+            card_items_info = card_items_info.filter(item => item.id !== el.id);
+            console.log(CART_DATA, DELIVERY_DATA)
+
+            const parentContainer = document.getElementById(parent_container_id);
+            const itemToRemove = document.getElementById(el.id + '_item_container');
+
+            parentContainer.removeChild(itemToRemove);
+
+            deleteDeliveryInfo();
+            showDeliveries(DELIVERY_DATA, ['deliveries', 'deliveries_desktop']);
+            showFinalPrice();
+
+            const items_left =  card_items_info.length
+            if (items_left > 0) {
+                document.getElementById('cartIconItemsCount').innerHTML = items_left
+                document.getElementById('cartIconItemsCountMobile').innerHTML = items_left
+            } else {
+                document.getElementById('cartIconItemsCount').style.display = 'none'
+                document.getElementById('cartIconItemsCountMobile').style.display = 'none'
+            }
+        })
     })
 
     return;
@@ -228,6 +271,17 @@ const showDisabledItems = (data, parent_container_id) => {
 
         disabled_items.map(el => showItem(el, parent_container_id))
 
+        disabled_items.map(el => {
+            const deleteIcon = document.getElementById(el.id + '_delete');
+            deleteIcon.addEventListener('click', () => {
+                CART_DATA = CART_DATA.filter(item => item.id !== el.id);
+    
+                const parentContainer = document.getElementById(parent_container_id);
+                const itemToRemove = document.getElementById(el.id + '_item_container');
+                element.textContent = `Отсутствуют · ${CART_DATA.filter(el => el.left === 0).length} товара`;
+                parentContainer.removeChild(itemToRemove);
+            })
+        })
     }
 }
 const showFinalPrice = () => {
@@ -251,13 +305,24 @@ const showFinalPrice = () => {
         }
     })
 
-    finalCostElement.innerHTML = `${finalPrice} сом`;
+    finalCostElement.innerHTML = `${finalPrice.toLocaleString()} сом`;
 
-    costWithoutDiscountElement.innerHTML = `${priceWithoutDiscount} сом`
+    costWithoutDiscountElement.innerHTML = `${priceWithoutDiscount.toLocaleString()} сом`
 
-    discountElement.innerHTML = `−${discount} сом`;
+    discountElement.innerHTML = `−${discount.toLocaleString()} сом`;
 
-    itemsQuantityElement.innerHTML = `${itemsQuantity} товара`
+    itemsQuantityElement.innerHTML = `${itemsQuantity.toLocaleString()} товара`
+
+
+    const checkbox_image = document.getElementsByClassName('instantCheckbox_fill')[0]
+
+    const orderButtonText = document.getElementById('order_button__text');
+    const finalCost = document.getElementById('finalCost').innerText;
+
+
+    if (!checkbox_image.classList.contains('hide')) {
+        orderButtonText.innerText = `Оплатить ${finalCost}`;
+    } 
 }
 
 
@@ -313,7 +378,10 @@ INNInput.addEventListener("blur", function() {
 
 INNInput.addEventListener("input", function() {
     const error_message = document.getElementById("INNInput_error");
+    const inputValue = INNInput.value;
+    INNInput.value = formatINN(inputValue);
     if (error_message.style.visibility === 'visible') {
+        
         if (isValidINN(INNInput.value)) {
             console.log('valid')
             INNInput.classList.remove('error');
@@ -399,25 +467,25 @@ phoneNumberInput.addEventListener("input", function() {
 
 // checkbox handling
 
-for (let i = 0; i < card_items_info.length; i++) {
-    const checkbox_all = document.getElementById('choose_all_checkbox_container');
+card_items_info.map(card_item_info => {
+     const checkbox_all = document.getElementById('choose_all_checkbox_container');
 
     const checkbox_image_all = checkbox_all.getElementsByClassName('choose_all_checkbox')[0]
     const empty_checkbox_image_all = checkbox_all.getElementsByClassName('choose_all_checkbox_empty')[0]
 
-    const checkbox = document.getElementById(`${card_items_info[i].id}_checkbox`)
+    const checkbox = document.getElementById(`${card_item_info.id}_checkbox`)
 
     checkbox.addEventListener('click', () => {
 
         const checkbox_image = checkbox.getElementsByClassName('checkbox_fill')[0]
         const empty_checkbox_image = checkbox.getElementsByClassName('checkbox_empty')[0]
 
-        if (card_items_info[i].checked) {
-            card_items_info[i].checked = false;
+        if (card_item_info.checked) {
+            card_item_info.checked = false;
             checkbox_image.classList.add('hide');
             empty_checkbox_image.classList.remove('hide')
         } else {
-            card_items_info[i].checked = true;
+            card_item_info.checked = true;
             checkbox_image.classList.remove('hide');
             empty_checkbox_image.classList.add('hide')
         }
@@ -435,7 +503,8 @@ for (let i = 0; i < card_items_info.length; i++) {
         showFinalPrice();
         showDeliveries(DELIVERY_DATA, ['deliveries', 'deliveries_desktop'])
     })
-}
+})
+   
 
 const checkbox = document.getElementById('choose_all_checkbox_container');
 checkbox.addEventListener('click', () => {
@@ -506,27 +575,36 @@ instantCheckbox.addEventListener('click', () => {
 })
 // items quantity 
 
-for (let i = 0; i < card_items_info.length; i++) {
-    const decrease = document.getElementById(`${card_items_info[i].id}_item_decrease`)
-    const increase = document.getElementById(`${card_items_info[i].id}_item_increase`)
-    const quantity = document.getElementById(`${card_items_info[i].id}_item_count`)
-    const ITEM_INFO = CART_DATA.find(item => item.id === card_items_info[i].id);
+card_items_info.map((card_item_info ) => {
+
+    const decrease = document.getElementById(`${card_item_info.id}_item_decrease`)
+    const increase = document.getElementById(`${card_item_info.id}_item_increase`)
+    const quantity = document.getElementById(`${card_item_info.id}_item_count`)
+    const ITEM_INFO = CART_DATA.find(item => item.id === card_item_info.id);
     const left = ITEM_INFO.left
 
 
-    const priceElement = document.getElementById(`${card_items_info[i].id}_price`)
-    const priceWithoutDiscountElement = document.getElementById(`${card_items_info[i].id}_priceWithoutDiscount`)
+    const priceElement = document.getElementById(`${card_item_info.id}_price`)
+    const priceWithoutDiscountElement = document.getElementById(`${card_item_info.id}_priceWithoutDiscount`)
+
+    const priceElementMobile = document.getElementById(`${card_item_info.id}_price_mobile`)
+    const priceWithoutDiscountElementMobile = document.getElementById(`${card_item_info.id}_priceWithoutDiscount_mobile`)
 
     decrease.addEventListener('click', () => {
-        if (card_items_info[i].count > 1) {
-            card_items_info[i].count -= 1
-            quantity.innerHTML = card_items_info[i].count
+        if (card_item_info.count > 1) {
+            card_item_info.count -= 1
+            quantity.innerHTML = card_item_info.count
 
-            const price = ITEM_INFO.price.after * card_items_info[i].count
-            const priceWithoutDiscount = ITEM_INFO.price.before * card_items_info[i].count
+            const price = ITEM_INFO.price.after * card_item_info.count
+            const priceWithoutDiscount = ITEM_INFO.price.before * card_item_info.count
+            const priceString = price.toLocaleString();
+            const priceWithoutDiscountString = priceWithoutDiscount.toLocaleString() + ' сом';
 
-            priceElement.innerHTML = price;
-            priceWithoutDiscountElement.innerHTML = priceWithoutDiscount + ' сом';
+            priceElement.innerHTML = priceString
+            priceWithoutDiscountElement.innerHTML = priceWithoutDiscountString
+
+            priceElementMobile.innerHTML = priceString
+            priceWithoutDiscountElementMobile.innerHTML = priceWithoutDiscountString
             deleteDeliveryInfo();
             showFinalPrice();
             showDeliveries(DELIVERY_DATA, ['deliveries', 'deliveries_desktop'])
@@ -536,21 +614,26 @@ for (let i = 0; i < card_items_info.length; i++) {
     })
 
     increase.addEventListener('click', () => {
-        if (Number.isFinite(left) && card_items_info[i].count < left || !Number.isFinite(left)) {
-            card_items_info[i].count += 1
-            quantity.innerHTML = card_items_info[i].count
-            const price = ITEM_INFO.price.after * card_items_info[i].count
-            const priceWithoutDiscount = ITEM_INFO.price.before * card_items_info[i].count
+        if (Number.isFinite(left) && card_item_info.count < left || !Number.isFinite(left)) {
+            card_item_info.count += 1
+            quantity.innerHTML = card_item_info.count
+            const price = ITEM_INFO.price.after * card_item_info.count
+            const priceWithoutDiscount = ITEM_INFO.price.before * card_item_info.count
+            const priceString = price.toLocaleString();
+            const priceWithoutDiscountString = priceWithoutDiscount.toLocaleString() + ' сом';
 
-            priceElement.innerHTML = price;
-            priceWithoutDiscountElement.innerHTML = priceWithoutDiscount + ' сом';
+            priceElement.innerHTML = priceString
+            priceWithoutDiscountElement.innerHTML = priceWithoutDiscountString
+
+            priceElementMobile.innerHTML = priceString
+            priceWithoutDiscountElementMobile.innerHTML = priceWithoutDiscountString
             deleteDeliveryInfo();
             showFinalPrice();
             showDeliveries(DELIVERY_DATA, ['deliveries', 'deliveries_desktop'])
        }
-    })
+  })
+})
 
-}
 
 // show items
 
@@ -626,56 +709,21 @@ hideShowDisabledItems.addEventListener('click', () => {
 
 // modals
 const deliveryAddresses = [
-    "Бишкек, улица Ахматбека Суюмбаева, 12/1", 
-    "Бишкек, улица Жукеева-Пудовкина, 77/1", 
-    "Бишкек, микрорайон Джал, улица Ахунбаева Исы, 67/1"
+    {item: "Бишкек, улица Ахматбека Суюмбаева, 12/1", picked: true},
+    {item: "Бишкек, улица Жукеева-Пудовкина, 77/1",  picked:false},
+    {item: "Бишкек, микрорайон Джал, улица Ахунбаева Исы, 67/1", picked:false}
+]
+
+const deliveryPoints = [
+    {item: "Бишкек, улица Ахматбека Суюмбаева, 12/1", picked: true},
+    {item: "Бишкек, улица Жукеева-Пудовкина, 77/1",  picked:false},
+    {item: "Бишкек, микрорайон Джал, улица Ахунбаева Исы, 67/1", picked:false}
 ]
 let currentDeliveryAddress = 0;
 let currentDeliveryPoint = 0;
 
-showDeliveryMethods(deliveryAddresses, deliveryAddresses, 'points_container', 'addresses_container')
+showDeliveryMethods(deliveryPoints, deliveryAddresses, 'points_container', 'addresses_container', currentDeliveryPoint, currentDeliveryAddress)
 
-deliveryAddresses.map((address,index) => {
-    const selectPoint = document.getElementById(`${index}_point_switch`)
-    const selectAddress = document.getElementById(`${index}_address_switch`)
-
-    selectPoint.addEventListener('click', () => {
-        if (currentDeliveryPoint !== index) {
-            const prevSelectPoint = document.getElementById(`${currentDeliveryPoint}_point_switch`)
-            const prevPickedIcon = prevSelectPoint.getElementsByClassName('picked')[0]
-            const prevNotPickedIcon = prevSelectPoint.getElementsByClassName('notPicked')[0]
-            prevPickedIcon.classList.add('hide')
-            prevNotPickedIcon.classList.remove('hide')
-            currentDeliveryPoint = index;
-
-            const pickedIcon = selectPoint.getElementsByClassName('picked')[0]
-            const notPickedIcon = selectPoint.getElementsByClassName('notPicked')[0]
-
-            pickedIcon.classList.remove('hide')
-            notPickedIcon.classList.add('hide')
-
-        }
-    })
-
-    selectAddress.addEventListener('click', () => {
-        if (currentDeliveryAddress !== index) {
-            const prevSelectAddress = document.getElementById(`${currentDeliveryAddress}_address_switch`)
-            const prevPickedIcon = prevSelectAddress.getElementsByClassName('picked')[0]
-            const prevNotPickedIcon = prevSelectAddress.getElementsByClassName('notPicked')[0]
-            prevPickedIcon.classList.add('hide')
-            prevNotPickedIcon.classList.remove('hide')
-            currentDeliveryAddress = index;
-
-            const pickedIcon = selectAddress.getElementsByClassName('picked')[0]
-            const notPickedIcon = selectAddress.getElementsByClassName('notPicked')[0]
-
-            pickedIcon.classList.remove('hide')
-            notPickedIcon.classList.add('hide')
-
-        }
-    })
-
-})
 
 let byCourier = false;
 
@@ -725,10 +773,14 @@ const openDeliveryModalFromTotal = document.getElementById('changeDeliveyMethodI
 
 openDeliveryModal.addEventListener('click', () => {
     modalDeliveryContainer.classList.remove('hide');
+    showDeliveryMethods(deliveryPoints, deliveryAddresses, 'points_container', 'addresses_container', currentDeliveryPoint, currentDeliveryAddress)
+
 })
 
 openDeliveryModalFromTotal.addEventListener('click', () => {
     modalDeliveryContainer.classList.remove('hide');
+    showDeliveryMethods(deliveryPoints, deliveryAddresses, 'points_container', 'addresses_container', currentDeliveryPoint, currentDeliveryAddress)
+
 })
 
 const changeDeliveryMethod = document.getElementById('change_delivery_info_button');
@@ -744,17 +796,20 @@ changeDeliveryMethod.addEventListener('click', () => {
         deliveryMethod.innerHTML = 'Курьером'
         deliveryMethodInTotal.innerHTML = 'Доставка курьером'
 
-        deliveryAddress.innerHTML = deliveryAddresses[currentDeliveryAddress]
-        deliveryAddressMobile.innerHTML = deliveryAddresses[currentDeliveryAddress]
-        deliveryAddressInTotal.innerHTML = deliveryAddresses[currentDeliveryAddress]
+        currentDeliveryAddress = deliveryAddresses.findIndex(el => el.picked);
+
+        deliveryAddress.innerHTML = deliveryAddresses[currentDeliveryAddress].item
+        deliveryAddressMobile.innerHTML = deliveryAddresses[currentDeliveryAddress].item
+        deliveryAddressInTotal.innerHTML = deliveryAddresses[currentDeliveryAddress].item
 
     } else {
         deliveryMethod.innerHTML = 'Пункт выдачи'
         deliveryMethodInTotal.innerHTML = 'Доставка в пункт выдачи'
+        currentDeliveryPoint = deliveryPoints.findIndex(el => el.picked);
 
-        deliveryAddress.innerHTML = deliveryAddresses[currentDeliveryPoint]
-        deliveryAddressMobile.innerHTML = deliveryAddresses[currentDeliveryPoint]
-        deliveryAddressInTotal.innerHTML = deliveryAddresses[currentDeliveryPoint]
+        deliveryAddress.innerHTML = deliveryPoints[currentDeliveryPoint].item
+        deliveryAddressMobile.innerHTML = deliveryPoints[currentDeliveryPoint].item
+        deliveryAddressInTotal.innerHTML = deliveryPoints[currentDeliveryPoint].item
 
     }
 
@@ -765,42 +820,25 @@ changeDeliveryMethod.addEventListener('click', () => {
 
 const cards = [{
         img: mir,
-        cardNumber: '1234 56•• •••• 1234'
+        cardNumber: '1234 56•• •••• 1234',
+        picked: true
     },
     {
         img: visa,
-        cardNumber: '1234 56•• •••• 1234'
+        cardNumber: '1234 56•• •••• 1234',
+        picked: false
     },
     {
         img: mastercard,
-        cardNumber: '1234 56•• •••• 1234'
+        cardNumber: '1234 56•• •••• 1234',
+        picked: false
     }
 ]
 
-let currentPayCard = 0;
-showPayCards(cards, 'cardsContainer')
+let payCard = 0;
+showPayCards(cards, 'cardsContainer', payCard)
 
-cards.map((card,index) => {
-    const selectCard = document.getElementById(`${index}_pay_switch`)
 
-    selectCard.addEventListener('click', () => {
-        if (currentPayCard !== index) {
-            const prevSelectPay = document.getElementById(`${currentPayCard}_pay_switch`)
-            const prevPickedIcon = prevSelectPay.getElementsByClassName('picked')[0]
-            const prevNotPickedIcon = prevSelectPay.getElementsByClassName('notPicked')[0]
-            prevPickedIcon.classList.add('hide')
-            prevNotPickedIcon.classList.remove('hide')
-            currentPayCard = index;
-
-            const pickedIcon = selectCard.getElementsByClassName('picked')[0]
-            const notPickedIcon = selectCard.getElementsByClassName('notPicked')[0]
-
-            pickedIcon.classList.remove('hide')
-            notPickedIcon.classList.add('hide')
-
-        }
-    })
-})
 
 
 const closePaymentModal = document.getElementById('closePaymentModal')
@@ -819,12 +857,13 @@ changePaymentInfo.addEventListener('click', () => {
     const cardIconInTotal = document.getElementById('cardIconInTotal')
     const cardNumberInTotal = document.getElementById('cardNumberInTotal')
 
+    payCard = cards.findIndex(el => el.picked);
 
-    cardIcon.src = cards[currentPayCard].img
-    cardIconInTotal.src = cards[currentPayCard].img
+    cardIcon.src = cards[payCard].img
+    cardIconInTotal.src = cards[payCard].img
 
-    cardNumber.innerHTML = cards[currentPayCard].cardNumber
-    cardNumberInTotal.innerHTML = cards[currentPayCard].cardNumber
+    cardNumber.innerHTML = cards[payCard].cardNumber
+    cardNumberInTotal.innerHTML = cards[payCard].cardNumber
 
     modalPaymentContainer.classList.add('hide');
 })
@@ -834,10 +873,12 @@ const openPaymentModalFromTotal = document.getElementById('changePayCardInTotal'
 
 openPaymentModal.addEventListener('click', () => {
     modalPaymentContainer.classList.remove('hide');
+    showPayCards(cards, 'cardsContainer', payCard)
 })
 
 openPaymentModalFromTotal.addEventListener('click', () => {
     modalPaymentContainer.classList.remove('hide');
+    showPayCards(cards, 'cardsContainer', payCard)
 })
 
 

@@ -3,7 +3,7 @@ import notPicked from '../images/icons/notPicked.svg'
 
 
 
-const showDeliveryMethods = (points, addresses, pointsContainerId, addressesContainerId) => {
+const showDeliveryMethods = (points, addresses, pointsContainerId, addressesContainerId, currentDeliveryPoint, currentDeliveryAddress) => {
     const pointsContainer = document.getElementById(pointsContainerId);
     const addressesContainer = document.getElementById(addressesContainerId);
     
@@ -11,17 +11,41 @@ const showDeliveryMethods = (points, addresses, pointsContainerId, addressesCont
         console.error("Container not found.");
         return;
     }
+    pointsContainer.innerHTML = '';
+    addressesContainer.innerHTML = '';
+
+    const pointHeader = document.createElement('p');
+    pointHeader.classList.add('header');
+    pointHeader.innerText = 'Мои адреса';
+
+    const addressesHeader = document.createElement('p');
+    addressesHeader.classList.add('header');
+    addressesHeader.innerText = 'Мои адреса';
+
+    addressesContainer.appendChild(addressesHeader);
+
+    const pickedPointIndex = points.findIndex(el => el.picked);
+    if (pickedPointIndex !== currentDeliveryPoint) {
+        points[pickedPointIndex].picked = false;
+        points[currentDeliveryPoint].picked = true
+    }
+
+    const pickedAddressIndex = addresses.findIndex(el => el.picked);
+    if (pickedAddressIndex !== currentDeliveryAddress) {
+        addresses[pickedAddressIndex].picked = false;
+        addresses[currentDeliveryAddress].picked = true
+    }
 
     points.map((item, index) => {
         const point = document.createElement('div')
         point.classList.add('point_container');
 
-        point.innerHTML = `<div class="point">
-            <span class="select" id="${index}_point_switch">
-            <img src="${picked}" alt=""  class="picked ${index === 0 ? '' : 'hide'}">
-            <img src="${notPicked}" alt=""  class="notPicked ${index === 0 ? 'hide' : ''}">
+        point.innerHTML = `<div class="point" id="${index}_point_switch">
+            <span class="select" >
+            <img src="${picked}" alt=""  class="picked ${index === currentDeliveryPoint ? '' : 'hide'}">
+            <img src="${notPicked}" alt=""  class="notPicked ${index === currentDeliveryPoint ? 'hide' : ''}">
             </span>
-            <span class="address"><span>${item}</span><span class="footer">Пункт выдачи</span></span>
+            <span class="address"><span>${item.item}</span><span class="footer">Пункт выдачи</span></span>
             </div>
             <span class="delete_point">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" >
@@ -40,12 +64,12 @@ const showDeliveryMethods = (points, addresses, pointsContainerId, addressesCont
         const point = document.createElement('div')
         point.classList.add('point_container');
 
-        point.innerHTML = `<div class="point">
-            <span class="select" id="${index}_address_switch">
-            <img src="${picked}" alt=""  class="picked ${index === 0 ? '' : 'hide'}">
-            <img src="${notPicked}" alt=""  class="notPicked ${index === 0 ? 'hide' : ''}">
+        point.innerHTML = `<div class="point" id="${index}_address_switch">
+            <span class="select" >
+            <img src="${picked}" alt=""  class="picked ${index === currentDeliveryAddress ? '' : 'hide'}">
+            <img src="${notPicked}" alt=""  class="notPicked ${index === currentDeliveryAddress ? 'hide' : ''}">
             </span>
-            <span class="address">${item}</span>
+            <span class="address">${item.item}</span>
             </div>
             <span class="delete_point">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" >
@@ -59,6 +83,66 @@ const showDeliveryMethods = (points, addresses, pointsContainerId, addressesCont
         addressesContainer.appendChild(point);
     })
 
+    
+points.map((point,index) => {
+    const selectPoint = document.getElementById(`${index}_point_switch`)
+
+    selectPoint.addEventListener('click', () => {
+        if (!point.picked) {
+            const prevPickedIndex = points.findIndex(el => el.picked);
+            const prevSelectPoint = document.getElementById(`${prevPickedIndex}_point_switch`)
+            const prevPickedIcon = prevSelectPoint.getElementsByClassName('picked')[0]
+            const prevNotPickedIcon = prevSelectPoint.getElementsByClassName('notPicked')[0]
+            prevPickedIcon.classList.add('hide')
+            prevNotPickedIcon.classList.remove('hide')
+
+            const pickedIcon = selectPoint.getElementsByClassName('picked')[0]
+            const notPickedIcon = selectPoint.getElementsByClassName('notPicked')[0]
+
+            pickedIcon.classList.remove('hide')
+            notPickedIcon.classList.add('hide')
+
+            point.picked = true;
+            for(let i = 0; i<points.length; i++) {
+                if (i !== index)
+                    points[i].picked = false
+            }
+        }
+    })
+
+})
+
+addresses.map((address,index) => {
+    const selectAddress = document.getElementById(`${index}_address_switch`)
+
+   
+
+    selectAddress.addEventListener('click', () => {
+        console.log(addresses)
+        if (!address.picked) {
+            const prevPickedIndex = addresses.findIndex(el => el.picked);
+            const prevSelectAddress = document.getElementById(`${prevPickedIndex}_address_switch`)
+            const prevPickedIcon = prevSelectAddress.getElementsByClassName('picked')[0]
+            const prevNotPickedIcon = prevSelectAddress.getElementsByClassName('notPicked')[0]
+            prevPickedIcon.classList.add('hide')
+            prevNotPickedIcon.classList.remove('hide')
+
+            const pickedIcon = selectAddress.getElementsByClassName('picked')[0]
+            const notPickedIcon = selectAddress.getElementsByClassName('notPicked')[0]
+
+            pickedIcon.classList.remove('hide')
+            notPickedIcon.classList.add('hide')
+
+            address.picked = true;
+            for(let i = 0; i<addresses.length; i++) {
+                if (i !== index)
+                    addresses[i].picked = false
+            }
+
+        }
+    })
+
+})
 
 }
 

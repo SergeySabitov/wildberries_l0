@@ -72,7 +72,10 @@ module.exports = {
           },
           {
             test: /\.(jpe?g|png|web|svg)$/i,
-            type:'asset/resource'
+            type:'asset/resource',
+            generator: {
+              filename:'images/[name][ext]'
+          }
           }
         ],
       },

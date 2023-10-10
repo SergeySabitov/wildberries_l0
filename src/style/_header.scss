@@ -8,6 +8,8 @@ header {
     gap: 2rem;
     align-self: stretch;
     flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
 
     .menu {
         display: flex;

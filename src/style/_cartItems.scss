@@ -131,7 +131,11 @@
                 .size_icon_container {
                     display: none;
                 }
-
+                .item_image {
+                    width: 4.5rem;
+                    height: 6rem;
+                    border-radius: 0.5rem;
+                }
                 .item_image.disabled {
                     filter: grayscale(100%);
                 }
@@ -252,7 +256,6 @@
                     align-items: center;
                     gap: 1rem;
                     visibility: hidden;
-                    svg { fill: black;} 
                     .likeIcon:hover {
                         fill: $accent_color_violet
                     }

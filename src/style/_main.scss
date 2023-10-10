@@ -32,6 +32,8 @@ input::-webkit-search-results-decoration { display: none; }
     align-items: flex-start;
     gap: 2rem;
     align-self: stretch;
+    max-width: 1400px;
+    margin: 0 auto;
 
     .cart {
         display: flex;
@@ -237,7 +239,7 @@ input::-webkit-search-results-decoration { display: none; }
     opacity: 1;
 }
 
-@media (max-width: 767px) {
+@media screen  and (max-width: 48rem) {
     .mobile_only {
         display: block;
     }
